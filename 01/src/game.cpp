@@ -30,7 +30,8 @@ void game(const int DISTANCE) {
                  << "Covering a total of " << range << " miles !\n"
                  << "To reach a target that was " << DISTANCE
                  << " miles away from you !\n"
-                 << "Your score is: " << (DISTANCE * 100) / (range)
+                 << "Your score is: "
+                 << ((DISTANCE * 100) / (range)) - (attempt - 1)
                  << "/100 points !\n";
         } else if (abs(cur_distance) >= 500) {
             cout << "You too far away from target...\n";
