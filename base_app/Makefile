@@ -3,12 +3,20 @@ OUTDIR = bin
 OUTPUT = $(OUTDIR)/$(BIN)
 CXX = clang++
 CXXFLAGS = -Wall -Wextra -std=c++20
-SOURCES = src/*.cpp
-HEADERS = src/*.hpp
+SRC_DIR = src
+OBJ_DIR = obj
+SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
+OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SOURCES))
 
-$(OUTPUT): $(SOURCES) $(HEADERS)
+$(OUTPUT): $(OBJECTS)
 	mkdir -p $(OUTDIR)
-	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(OUTPUT)
+	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(OUTPUT)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	mkdir -p $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OUTDIR)
+	rm -rf $(OBJ_DIR) $(OUTDIR)
+
+.PHONY: clean
